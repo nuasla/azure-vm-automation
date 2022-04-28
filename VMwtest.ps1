@@ -24,12 +24,12 @@ if ($rgnotPresent) {
 
 
 Get-AzVM -Name $vmName -ErrorVariable vmnotPresent -ErrorAction SilentlyContinue -ResourceGroupName $rgName | out-null
-if ($vmnotPresent) {
+if ($vmnotPresent) {     
     # VirtualMachine doesn't exist
     Write-host "Virtuell maskin $vmName finnes ikke. Oppretter den..."
     $password = ConvertTo-SecureString $vmPassword -AsPlainText -Force
     $Cred = New-Object System.Management.Automation.PSCredential ($vmUser, $password)
-    New-AzVM -Name $vmName -Location norwayeast -ResourceGroupName $rgName -Image "UbuntuLTS" -Credential $Cred
+    New-AzVM -Name $vmName -Location "NorwayEast" -ResourceGroupName $rgName -Image "Win2019Datacenter" -Credential $Cred
 } else {
     # VirtualMachine exist
     write-host "Virtuell Maskin $vmName finnes"
