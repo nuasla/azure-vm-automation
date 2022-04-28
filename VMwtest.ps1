@@ -1,6 +1,10 @@
 param(
-    [string]$rgName = "Numan"
+    [string]$rgName = "Numan",
+    [string]$vmName = "VM1",
+    [string]$vmUser = "testbruker",
+    [string]$vmPassword 
 )
+
 
 #Connect-AzAccount
 #Husk å være logget inn.
@@ -8,15 +12,26 @@ param(
 #Sett aktiv subscription til Lærling Sandbox. 
 Set-AzContext "d2f5f9de-13af-43fe-9bcf-7c82bd1390fd"
 
-Get-AzResourceGroup -Name $rgName -ErrorVariable notPresent -ErrorAction SilentlyContinue
-
-if ($notPresent)
-{
+Get-AzResourceGroup -Name $rgName -ErrorVariable rgnotPresent -ErrorAction SilentlyContinue | out-null
+if ($rgnotPresent) {
     # ResourceGroup doesn't exist
+    Write-host "Ressursgruppen $rgName finnes ikke. Oppretter den..."
     New-AzResourceGroup -Name $rgName -Location norwayeast -force 
-}
-else
-{
+} else {
     # ResourceGroup exist
+    write-host "Ressursgruppen $rgName finnes"
+}
+
+
+Get-AzVM -Name $vmName -ErrorVariable vmnotPresent -ErrorAction SilentlyContinue -ResourceGroupName $rgName | out-null
+if ($vmnotPresent) {
+    # VirtualMachine doesn't exist
+    Write-host "Virtuell maskin $vmName finnes ikke. Oppretter den..."
+    $password = ConvertTo-SecureString $vmPassword -AsPlainText -Force
+    $Cred = New-Object System.Management.Automation.PSCredential ($vmUser, $password)
+    New-AzVM -Name $vmName -Location norwayeast -ResourceGroupName $rgName -Image "UbuntuLTS" -Credential $Cred
+} else {
+    # VirtualMachine exist
+    write-host "Virtuell Maskin $vmName finnes"
 }
 
