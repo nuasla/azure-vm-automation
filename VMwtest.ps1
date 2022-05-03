@@ -2,9 +2,10 @@ param(
     [string]$rgName = "Numan",
     [string]$vmName = "VM1",
     [string]$vmUser = "testbruker",
-    [string]$vmPassword 
+    [SecureString]$vmPassword 
 )
 
+$ErrorActionPreference = "stop"
 
 #Connect-AzAccount
 #Husk å være logget inn.

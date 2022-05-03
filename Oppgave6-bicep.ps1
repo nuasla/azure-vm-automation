@@ -15,6 +15,7 @@ Set-AzContext -SubscriptionId "d2f5f9de-13af-43fe-9bcf-7c82bd1390fd"
 
 foreach ($rgName in $rgListOfNames) {
     New-AzDeployment -Name "Deployment1-$rgName" -Location "norwayeast" -TemplateFile "./rg.bicep" -TemplateParameterObject @{rgName = $rgName}
+    Write-Host "Jeg deployer-$rgName"
     #New-AzResourceGroup -Name $rgName -Location "norwayeast"
 }
 
