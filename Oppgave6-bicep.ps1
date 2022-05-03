@@ -1,5 +1,5 @@
 param(
-    [string[]]$rgNames
+    [string[]]$rgListOfNames = @("rgDemo1";"rgDemo2")
 )
 # function/commando for creating a resource group
 
@@ -11,10 +11,10 @@ param(
 
 ## ASSUMPTION - already logged in correct tenant
 
-Set-AzContext -SubscriptionId <Name>
+Set-AzContext -SubscriptionId "d2f5f9de-13af-43fe-9bcf-7c82bd1390fd"
 
-foreach ($rgName in $rgNames) {
-    New-AzDeployment -Name "Deployment1" -Location "norwayeast" -TemplateFile "./rg.bicep" -TemplateParameterObject @{rgName=@{value=$rgName}}
+foreach ($rgName in $rgListOfNames) {
+    New-AzDeployment -Name "Deployment1-$rgName" -Location "norwayeast" -TemplateFile "./rg.bicep" -TemplateParameterObject @{rgName = $rgName}
     #New-AzResourceGroup -Name $rgName -Location "norwayeast"
 }
 
