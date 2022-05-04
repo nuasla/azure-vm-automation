@@ -2,7 +2,7 @@
 # Se https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_preference_variables?view=powershell-7.2#erroractionpreference
 $ErrorActionPreference = 'Stop'
 
-$webRequest = Invoke-WebRequest -Uri <#url til kortstokk#>
+$webRequest = Invoke-WebRequest -Uri 'http://nav-deckofcards.herokuapp.com/shuffle'
 
 # bevissthet på hva $webRequest innholder/representerer - datastruktur
 
